@@ -1,5 +1,3 @@
-const { createElement } = require("react");
-
 var diasSemana = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
 var meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
@@ -142,40 +140,65 @@ function imprimirSocios(socios){
     var idSocio = document.getElementById("tabla-socios");
 
     for(var socio of socios){
-        var iniciales = socio.nombre.substring(0, 1) + "" + socio.apellidos.substring(0, 1);
-        var tr = document.createElement("tr");
-        var tdId = document.createElement("td");
-        var spanIniciales = document.createElement("span");
-        spanIniciales.classList.add("iniciales");
-        spanIniciales.textContent = iniciales;
-        var spanId = document.createElement("span");
-        spanId.classList.add("id-socio");
-        spanId.textContent = socio.id; 
-        tdId.appendChild(spanIniciales);
-        tdId.appendChild(spanId);
-        
-        var tdNombre = document.createElement("td");
-        var apellidos = socio.apellidos.split(" ")
-        tdNombre.textContent = socio.nombre + " " + apellidos[0] + " " + apellidos[1].substring(0, 1) + ".";
-        tr.appendChild(tdId);
-        tr.appendChild(tdNombre);
+      var iniciales = socio.nombre.substring(0, 1) + "" + socio.apellidos.substring(0, 1);
+      var tr = document.createElement("tr");
+      var tdId = document.createElement("td");
+      var spanIniciales = document.createElement("span");
+      spanIniciales.classList.add("iniciales");
+      spanIniciales.textContent = iniciales;
+      var spanId = document.createElement("span");
+      spanId.classList.add("id-socio");
+      spanId.textContent = socio.id; 
+      tdId.appendChild(spanIniciales);
+      tdId.appendChild(spanId);
+      
+      var tdNombre = document.createElement("td");
+      var apellidos = socio.apellidos.split(" ")
+      tdNombre.textContent = socio.nombre + " " + apellidos[0] + " " + apellidos[1].substring(0, 1) + ".";
+      tr.appendChild(tdId);
+      tr.appendChild(tdNombre);
 
 
-        var tdEmail = document.createElement("td");
-        var asteriscosCorreo = socio.email.split("@");
-        var censura = asteriscosCorreo[0].substring(2, (asteriscosCorreo[0].length - 2));
-        tdEmail.textContent = socio.email.substring(0, 2) + "*".repeat(asteriscosCorreo[0].length - 2) + "@" + asteriscosCorreo[1];
-        tr.appendChild(tdEmail);
+      var tdEmail = document.createElement("td");
+      var asteriscosCorreo = socio.email.split("@");
+      tdEmail.textContent = socio.email.substring(0, 2) + "*".repeat(asteriscosCorreo[0].length - 2) + "@" + asteriscosCorreo[1];
+      tr.appendChild(tdEmail);
 
-        var tdActividades = document.createElement("td");
-        for(var actividad of socio.actividades){
-            tdActividades.textContent += actividad + " ";
-        }
-        tr.appendChild(tdActividades);
+      var tdEdad = document.createElement("td");
+      var hoy = new Date();
+      var fechNac = new Date(socio.fechaNacimiento);
+      tdEdad.textContent = Math.round((hoy - fechNac) / 1000 / 60 / 60 / 24 / 365);
+      tr.appendChild(tdEdad);
 
+      var tdActividades = document.createElement("td");
+      for(var actividad of socio.actividades){
+          tdActividades.textContent += (actividad != ""?actividad:"No hay actividades") + " ";
+      }
+      tr.appendChild(tdActividades);
 
-        idSocio.appendChild(tr);
+      var tdCuota = document.createElement("td");
+      tdCuota.textContent = socio.cuota.toFixed(2) + "€";
+      tr.appendChild(tdCuota);
+
+      idSocio.appendChild(tr);
     }
     
+}
+
+document.getElementById("buscador").addEventListener("input", buscador);
+function buscador(e){ 
+  var idSocio = document.getElementById("tabla-socios");
+  idSocio.innerHTML = "";
+  var texto = e.target.value.toLowerCase();
+  if(texto < 2){
+    imprimirSocios(socios);
+  }
+  else{
+    var socio = socios.filter(function(socios){
+      var nombreCompleto = socios.nombre + " " + socios.apellidos;
+      return nombreCompleto.toLocaleLowerCase().includes(texto);
+    })
+    imprimirSocios(socio);
+  }
 }
 imprimirSocios(socios);
