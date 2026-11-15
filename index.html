@@ -16,8 +16,8 @@
       <p class="subtitulo">Club deportivo</p>
     </div>
     <div id="reloj">
-      <p id="fecha" id="fecha"></p>
-      <p id="hora" id="hora"></p>
+      <p id="fecha"></p>
+      <p id="hora"></p>
     </div>
   </header>
 
@@ -51,11 +51,13 @@
           </select>
         </div>
 
-        <button type="button" id="btn-pantalla-completa" class="btn btn-secundario">Pantalla completa</button>
       </div>
 
       <!-- Este contenedor es el que se muestra a pantalla completa -->
       <div id="contenedor-tabla" class="contenedor-tabla">
+        <div class="barra-tabla">
+          <button type="button" id="btn-pantalla-completa" class="btn btn-secundario">Pantalla completa</button>
+        </div>
         <table class="tabla-socios">
           <thead>
             <tr>
@@ -97,7 +99,7 @@
             <label for="dni-ficha">DNI del socio</label>
             <input type="text" id="dni-ficha" placeholder="12345678Z" autocomplete="off">
           </div>
-          <button type="submit" class="btn">Ver ficha</button>
+          <button type="button" id="btn-Ficha">Ver ficha</button>
         </form>
 
         <div id="resultado-ficha" class="resultado-ficha" aria-live="polite">

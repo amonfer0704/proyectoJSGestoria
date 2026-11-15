@@ -624,3 +624,13 @@ fieldset.campo-error {
     transition: none !important;
   }
 }
+
+.barra-tabla {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem;
+}
+
+.contenedor-tabla:fullscreen .barra-tabla {
+  padding: 0 0 1rem 0;   /* el contenedor ya tiene su padding en pantalla completa */
+}
